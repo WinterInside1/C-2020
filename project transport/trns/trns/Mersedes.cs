@@ -423,7 +423,7 @@ namespace Mersedes
             char symb;
             mas[0] = new BMW();
             int i = 0, j = 0;
-            while (res == true)
+            while (res)
             {
                 Console.WriteLine("1 - Внести информацию о новом автомобиле");
                 Console.WriteLine("2 - Показать все автомобили BMW");
@@ -536,7 +536,7 @@ namespace Mersedes
                         string s;
                         s = Console.ReadLine();
                         int num;
-                        while (res == true)
+                        while (res)
                         {
                             res = false;
                             try { num = Convert.ToInt32(s); }

@@ -1,6 +1,6 @@
 ﻿namespace IClass
 {
-    interface IShow
+    internal interface IShow
     {
         string Show();
     }

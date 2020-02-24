@@ -25,7 +25,7 @@ namespace trns
                        
         protected string fuel;
         
-        public Auto() : base ()
+        public Auto()
         {
             Name = "car";
             price = 1000;
