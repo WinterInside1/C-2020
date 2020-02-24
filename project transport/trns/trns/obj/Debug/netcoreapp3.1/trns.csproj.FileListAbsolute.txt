@@ -1,0 +1,11 @@
+C:\Users\dima4\RiderProjects\project transport\trns\trns\obj\Debug\netcoreapp3.1\trns.csprojAssemblyReference.cache
+C:\Users\dima4\RiderProjects\project transport\trns\trns\obj\Debug\netcoreapp3.1\trns.AssemblyInfoInputs.cache
+C:\Users\dima4\RiderProjects\project transport\trns\trns\obj\Debug\netcoreapp3.1\trns.AssemblyInfo.cs
+C:\Users\dima4\RiderProjects\project transport\trns\trns\bin\Debug\netcoreapp3.1\trns.exe
+C:\Users\dima4\RiderProjects\project transport\trns\trns\bin\Debug\netcoreapp3.1\trns.deps.json
+C:\Users\dima4\RiderProjects\project transport\trns\trns\bin\Debug\netcoreapp3.1\trns.runtimeconfig.json
+C:\Users\dima4\RiderProjects\project transport\trns\trns\bin\Debug\netcoreapp3.1\trns.runtimeconfig.dev.json
+C:\Users\dima4\RiderProjects\project transport\trns\trns\bin\Debug\netcoreapp3.1\trns.dll
+C:\Users\dima4\RiderProjects\project transport\trns\trns\bin\Debug\netcoreapp3.1\trns.pdb
+C:\Users\dima4\RiderProjects\project transport\trns\trns\obj\Debug\netcoreapp3.1\trns.dll
+C:\Users\dima4\RiderProjects\project transport\trns\trns\obj\Debug\netcoreapp3.1\trns.pdb
