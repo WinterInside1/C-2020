@@ -21,14 +21,14 @@ namespace Mersedes
     public class Mers : Auto, IComparable, IEquatable<Mers>
     {
         //private IComparable comp;
-        protected static int counter = 0;
+        protected static int counter;
         public string Model { get; set; }
         protected string type_name;
         
        //IEquatable
        public bool Equals(Mers obj)
         {
-            return this.Model == obj.Model && this.type_name == obj.type_name;
+            return Model == obj.Model && type_name == obj.type_name;
         }
 
 
@@ -37,14 +37,11 @@ namespace Mersedes
         {
             Mers m = obj as Mers;
             if (m != null)
-                return this.price.CompareTo(m.price);
-            else
-            {
-                throw new Exception("Невозможно сравнить эти объекты!");
-            }
+                return price.CompareTo(m.price);
+            throw new Exception("Невозможно сравнить эти объекты!");
         }
 
-        public Mers() : base()
+        public Mers()
         {
             name = "Mersedes";
             type_name = "Sedan";
@@ -58,7 +55,7 @@ namespace Mersedes
             counter++;
         }
 
-        public Mers(int _price, string _comfort, double _speed, string _color, string _fuel, int _year) : base()
+        public Mers(int _price, string _comfort, double _speed, string _color, string _fuel, int _year)
         {
             name = "Mersedes";
             type_name = var_types[0].type_name;
@@ -95,12 +92,12 @@ namespace Mersedes
             Console.Write("Price: ");
             str0 = Console.ReadLine();
             res = true;
-            while (res == true)
+            while (res)
             {
                 
                 res = false;
                 try { price = Convert.ToInt32(str0); }
-                catch (System.FormatException)
+                catch (FormatException)
                 {
                     Console.WriteLine("Вы ввели неверное значение ");
                     Console.Write("Price: ");
@@ -112,14 +109,14 @@ namespace Mersedes
             Console.Write("Speed: ");
             str0 = Console.ReadLine();
             res = true;
-            while (res == true)
+            while (res)
             {
                 res = false;
                 try
                 {
                     speed = Convert.ToDouble(str0);
                 }
-                catch (System.FormatException)
+                catch (FormatException)
                 {
                     Console.WriteLine("Вы ввели неверное значение ");
                     Console.Write("Speed: ");
@@ -135,14 +132,14 @@ namespace Mersedes
             Console.Write("Year: ");
             str0 = Console.ReadLine();
             res = true;
-            while (res == true)
+            while (res)
             {
                 res = false;
                 try
                 {
                     year = Convert.ToInt32(str0);
                 }
-                catch (System.FormatException)
+                catch (FormatException)
                 {
                     Console.WriteLine("Вы ввели неверное значение ");
                     str0 = Console.ReadLine();
@@ -159,11 +156,11 @@ namespace Mersedes
             int n;
             str0 = Console.ReadLine();
             res = true;            
-            while (res == true)
+            while (res)
             {
                 res = false;
                 try { n = Convert.ToInt32(str0); }
-                catch(System.FormatException)
+                catch(FormatException)
                 {
                     Console.WriteLine("Неверное значение. Повотрите попытку");
                     Console.Write("Номер кузова: ");
@@ -174,21 +171,21 @@ namespace Mersedes
             n = Convert.ToInt32(str0);
 
             res = true;
-            while (res == true)
+            while (res)
             {
                 res = false;
                 try { type_name = var_types[n].type_name; }
-                catch (System.IndexOutOfRangeException)
+                catch (IndexOutOfRangeException)
                 {
                     Console.WriteLine("Такого кузова нет. Повотрите попытку");
                     Console.Write("Номер кузова: ");
                     str0 = Console.ReadLine();
                     
-                    while (res == true)
+                    while (res)
                     {
                         res = false;
                         try { n = Convert.ToInt32(str0); }
-                        catch (System.FormatException)
+                        catch (FormatException)
                         {
                             Console.WriteLine("Неверное значение. Повотрите попытку");
                             Console.Write("Номер кузова: ");
@@ -218,11 +215,11 @@ namespace Mersedes
             Console.Write("Номер модели: ");
             str0 = Console.ReadLine();
             res = true;
-            while (res == true)
+            while (res)
             {
                 res = false;
                 try { i = Convert.ToInt32(str0); }
-                catch (System.FormatException)
+                catch (FormatException)
                 {
                     Console.WriteLine("Неверное значение. Повотрите попытку");
                     Console.Write("Номер кузова: ");
@@ -237,11 +234,11 @@ namespace Mersedes
                 Console.Write("Номер модели: ");
                 str0 = Console.ReadLine();
                 res = true;
-                while (res == true)
+                while (res)
                 {
                     res = false;
                     try { i = Convert.ToInt32(str0); }
-                    catch (System.FormatException)
+                    catch (FormatException)
                     {
                         Console.WriteLine("Неверное значение. Повотрите попытку");
                         Console.Write("Номер кузова: ");
@@ -264,7 +261,7 @@ namespace Mersedes
             char symb;
             mas[0] = new Mers();
             int i = 0, j = 0;
-            while (res == true)
+            while (res)
             {
                 Console.WriteLine("1 - Внести информацию о новом автомобиле");
                 Console.WriteLine("2 - Показать все автомобили Мерседес");
@@ -275,11 +272,11 @@ namespace Mersedes
                 Console.WriteLine("7 - Купить");
                 Console.WriteLine("0 - Выход");
                 string str3 = Console.ReadLine();
-                while(res == true)
+                while(res)
                 {
                     res = false;
                     try { symb = Convert.ToChar(str3); }
-                    catch(System.FormatException)
+                    catch(FormatException)
                     {
                         Console.WriteLine("Введено неверное значение. Повторите попытку");
                         str3 = Console.ReadLine();
@@ -377,11 +374,11 @@ namespace Mersedes
                         string s;
                         s = Console.ReadLine();
                         int num;
-                        while (res == true)
+                        while (res)
                         {
                             res = false;
                             try { num = Convert.ToInt32(s); }
-                            catch (System.FormatException)
+                            catch (FormatException)
                             {
                                 Console.WriteLine("Введено неверное значение. Повторите попытку");
                                 s = Console.ReadLine();
@@ -434,11 +431,11 @@ namespace Mersedes
                 Console.WriteLine("7 - Купить");
                 Console.WriteLine("0 - Выход");
                 string str3 = Console.ReadLine();
-                while (res == true)
+                while (res)
                 {
                     res = false;
                     try { symb = Convert.ToChar(str3); }
-                    catch (System.FormatException)
+                    catch (FormatException)
                     {
                         Console.WriteLine("Введено неверное значение. Повторите попытку");
                         str3 = Console.ReadLine();
@@ -540,7 +537,7 @@ namespace Mersedes
                         {
                             res = false;
                             try { num = Convert.ToInt32(s); }
-                            catch (System.FormatException)
+                            catch (FormatException)
                             {
                                 Console.WriteLine("Введено неверное значение. Повторите попытку");
                                 s = Console.ReadLine();

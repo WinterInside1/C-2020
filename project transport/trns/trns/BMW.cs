@@ -16,7 +16,7 @@ enum mod
 }
 public class BMW : Mers
 {
-        public BMW():base()
+        public BMW()
         {
             name = "BMW";
             type_name = "Sedan";
@@ -29,7 +29,7 @@ public class BMW : Mers
             year = 2019;
             counter++;
         }
-        public BMW(int _price, string _comfort, double _speed, string _color, string _fuel, int _year) : base()
+        public BMW(int _price, string _comfort, double _speed, string _color, string _fuel, int _year) 
         {
             name = "BMW";
             type_name = var_types[0].type_name;
