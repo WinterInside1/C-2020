@@ -1,6 +1,5 @@
 ﻿using System;
-
-namespace events
+namespace trns
 {
     delegate void Shop(int x); 
     class MyEvent

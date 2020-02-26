@@ -1,8 +1,5 @@
 ﻿using System;
-using Bmw;
-using Mersedes;
-
-namespace @class
+namespace trns
 {
     public class Transport
     {
@@ -43,7 +40,6 @@ namespace @class
             comfort = "high";
             speed = 0.0;
             year = 2000;
-
         }
 
         public Transport(string _name, int _price, string _comfort, double _speed, int _year)
@@ -53,7 +49,6 @@ namespace @class
             comfort = _comfort;
             speed = _speed;
             year = _year;
-
         }
 
         public virtual void show()
@@ -73,14 +68,14 @@ namespace @class
             Console.WriteLine("Price: ");
             str0 = Console.ReadLine();
             res = true;
-            while (res == true)
+            while (res )
             {
                 res = false;
                 try
                 {
                     price = Convert.ToInt32(str0);
                 }
-                catch (System.FormatException)
+                catch (FormatException)
                 {
                     Console.WriteLine("Вы ввели неверное значение ");
                     str0 = Console.ReadLine();
@@ -94,14 +89,14 @@ namespace @class
             Console.WriteLine("Speed: ");
             str0 = Console.ReadLine();
             res = true;
-            while (res == true)
+            while (res)
             {
                 res = false;
                 try
                 {
                     speed = Convert.ToDouble(str0);
                 }
-                catch (System.FormatException)
+                catch (FormatException)
                 {
                     Console.WriteLine("Вы ввели неверное значение ");
                     str0 = Console.ReadLine();
@@ -113,21 +108,20 @@ namespace @class
             Console.WriteLine("Year: ");
             str0 = Console.ReadLine();
             res = true;
-            while (res == true)
+            while (res)
             {
                 res = false;
                 try
                 {
                     year = Convert.ToInt32(str0);
                 }
-                catch (System.FormatException)
+                catch (FormatException)
                 {
                     Console.WriteLine("Вы ввели неверное значение ");
                     str0 = Console.ReadLine();
                     res = true;
                 }
             }
-
             year = Convert.ToInt32(str0);
             Console.WriteLine();
         }
@@ -149,9 +143,6 @@ namespace @class
         {
             Console.WriteLine("Имя: Транспорт\n Содержит базовые характеристики видов транспортных средств");
         }
-
-
-
     }
 
 
@@ -177,13 +168,13 @@ namespace @class
                 mas[0] = new Transport();
                 string str;
                 bool yes = true;
-                while (yes == true)
+                while (yes)
                 {
 
                     str = Console.ReadLine();
                     char symb;
                     bool res = true;
-                    while (res == true)
+                    while (res)
                     {
                         res = false;
 
@@ -191,15 +182,13 @@ namespace @class
                         {
                             symb = Convert.ToChar(str);
                         }
-                        catch (System.FormatException)
+                        catch (FormatException)
                         {
                             Console.WriteLine("Неизвестный символ.Повторите попытку");
                             str = Console.ReadLine();
                             res = true;
                         }
-
                     }
-
                     symb = Convert.ToChar(str);
                     switch (symb)
                     {
@@ -272,7 +261,7 @@ namespace @class
 
                         case '7':
                             bool res1 = true;
-                            while (res1 == true)
+                            while (res1)
                             {
                                 Console.WriteLine("1 - Mersedes");
                                 Console.WriteLine("2 - BMW");
@@ -280,14 +269,14 @@ namespace @class
                                 Console.WriteLine("0 - exit");
                                 char s1;
                                 string str3 = Console.ReadLine();
-                                while (res1 == true)
+                                while (res1)
                                 {
                                     res1 = false;
                                     try
                                     {
                                         s1 = Convert.ToChar(str3);
                                     }
-                                    catch (System.FormatException)
+                                    catch (FormatException)
                                     {
                                         Console.WriteLine("Введено неверное значение. Повторите попытку");
                                         str3 = Console.ReadLine();
@@ -315,9 +304,7 @@ namespace @class
                                         Console.WriteLine("Неизвестный символ");
                                         break;
                                 }
-
                             }
-
                             break;
                         case '0':
                             yes = false;
@@ -326,9 +313,7 @@ namespace @class
                         default:
                             Console.WriteLine("Неизвестный символ");
                             break;
-
                     }
-
                     Console.WriteLine("1 - Информация о классе");
                     Console.WriteLine("2 - Ввод новых данных");
                     Console.WriteLine("3 - Показать информацию об объектах");
@@ -336,7 +321,6 @@ namespace @class
                     Console.WriteLine("5 - Показать цвет ТС");
                     Console.WriteLine("6 - Показать номер");
                     Console.WriteLine("7 - Перейти к выбору автомобилей");
-
                     Console.WriteLine("0 - Выход");
                 }
             }

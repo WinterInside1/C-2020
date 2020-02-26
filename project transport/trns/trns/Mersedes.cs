@@ -1,9 +1,5 @@
 ﻿using System;
-using Bmw;
-using events;
-using trns;
-
-namespace Mersedes
+namespace trns
 {
     public enum Models
     {
@@ -560,7 +556,6 @@ namespace Mersedes
                             {
                                 Console.WriteLine("У Вас недостаточно средств");
                             }
-
                         };
                         MyEvent evt = new MyEvent();
                         evt.SomeEvent += del;

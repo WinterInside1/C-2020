@@ -1,6 +1,4 @@
 ﻿using System;
-using @class;
-using IClass;
 namespace trns
 {
     public struct TypesCars : IShow

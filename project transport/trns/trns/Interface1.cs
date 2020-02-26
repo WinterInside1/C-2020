@@ -1,4 +1,4 @@
-﻿namespace IClass
+﻿namespace trns
 {
     internal interface IShow
     {
