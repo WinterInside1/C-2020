@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Globalization;
+
 namespace trns
 {
     public enum Models
@@ -71,7 +73,7 @@ namespace trns
             Console.WriteLine("Type: " + type_name);
             Console.WriteLine("Model: " + Model);
             Console.WriteLine("Price: " + price);
-            Console.WriteLine("Speed: " + Convert.ToString(speed));
+            Console.WriteLine("Speed: " + Convert.ToString(speed, CultureInfo.InvariantCulture));
             Console.WriteLine("Color: " + color);
             Console.WriteLine("Fuel: " + Convert.ToString(fuel));
             Console.WriteLine("Year: " + Convert.ToString(year));
@@ -82,7 +84,6 @@ namespace trns
         public override void enter()
         {
             //throw new NotImplementedException();
-
             Console.Write("Model: ");
             Model = Console.ReadLine();
             Console.Write("Price: ");
@@ -90,7 +91,6 @@ namespace trns
             res = true;
             while (res)
             {
-                
                 res = false;
                 try { price = Convert.ToInt32(str0); }
                 catch (FormatException)
@@ -192,7 +192,6 @@ namespace trns
                     n = Convert.ToInt32(str0);
                     res = true;
                 }
-
             }
             type_name = var_types[n].type_name;
         }

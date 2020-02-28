@@ -19,14 +19,12 @@ namespace trns
 
         protected string str0;
         protected bool res = true;
-
         public string TrColor
         {
             get { return color; }
             set { color = value; }
         }
-
-
+        
         public string Name
         {
             get { return name; }
@@ -334,7 +332,6 @@ namespace trns
                 Mers mers = new Mers();
                 BMW bmw = new BMW();
                 Console.WriteLine("\n" + Convert.ToString(mers.CompareTo(bmw)));
-
             }
         }
     }
