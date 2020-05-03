@@ -50,9 +50,8 @@ namespace LR7
                     case '1':
                         mas[i] = new Operations(1);
                         Console.WriteLine("Введите дробь:");
-                        Operations buff = new Operations();
-                        buff = Enter();
-                        
+                        Operations buff;
+                        Enter();
                         i++;
                         Array.Resize(ref mas, i+1);
                         break;
@@ -72,10 +71,10 @@ namespace LR7
                             mas[i] = new Operations(1, 1);
                             buff = Enter(arr[1]);
                             mas[i] = buff;
-                            Operations resulting = mas[i-1] + mas[i];
+                            var resulting = mas[i-1] + mas[i];
                             i++;
 
-                            Console.WriteLine(arr[0] + " + " + arr[1] + " = " + resulting.Fraction());
+                            Console.WriteLine(arr[0] + " + " + arr[1] + " = " + resulting.ToString());
                         }
                         else
                         if (Exist(drob, '-'))
@@ -92,8 +91,7 @@ namespace LR7
                             mas[i] = buff;
                             Operations resulting = mas[i-1] - mas[i];
                             i++;
-
-                            Console.WriteLine(arr[0] + " - " + arr[1] + " = " + resulting.Fraction());
+                            Console.WriteLine(arr[0] + " - " + arr[1] + " = " + resulting.ToString());
                         }
                         else
                         if (Exist(drob, '*'))
@@ -111,7 +109,7 @@ namespace LR7
                             Operations resulting = mas[i-1] * mas[i];
                             i++;
 
-                            Console.WriteLine(arr[0] + " * " + arr[1] + " = " + resulting.Fraction());
+                            Console.WriteLine(arr[0] + " * " + arr[1] + " = " + resulting.ToString());
                         }
                         else
                         {
@@ -152,7 +150,7 @@ namespace LR7
                             Operations resulting = mas[i - 1] / mas[i];
                             i++;
 
-                            Console.WriteLine( " = " + resulting.Fraction());
+                            Console.WriteLine( " = " + resulting.ToString());
                         }                                               
 
                         break;
@@ -243,27 +241,16 @@ namespace LR7
                 }
             }
         }
-        
-         public static Operations Enter()
+
+        private static Operations Enter()
         {
-            var buff = new Operations(); 
+            //var buff = new Operations(); 
             var str = Console.ReadLine();
             var strs = str?.Split("/");
             int a, b;
             try
             {
                 a = Convert.ToInt32(strs?[0]);
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Неверное выражение");
-                return null;
-            }
-
-            // a = Convert.ToInt32(strs?[0]);
-            buff.SetNumerator(a);
-            try
-            {
                 b = Convert.ToInt32(strs?[1]);
             }
             catch (FormatException)
@@ -271,15 +258,27 @@ namespace LR7
                 Console.WriteLine("Неверное выражение");
                 return null;
             }
-
+            
+            // try
+            // {
+            //     b = Convert.ToInt32(strs?[1]);
+            // }
+            // catch (FormatException)
+            // {
+            //     Console.WriteLine("Неверное выражение");
+            //     return null;
+            // }
             // b = Convert.ToInt32(strs[1]);
-            buff.SetDenaminator(b);
+            Operations buff;
+            if ( b != 0)
+                buff = new Operations(a,b);
+            else throw new Exception("U cant enter 0");
             return buff;
         }
-         
-        public static Operations Enter(string str)
-        {
-            var buff = new Operations();
+
+         private static Operations Enter(string str)
+         {
+             Operations buff;
             var yes = false;
             foreach (var ch in str.Where(ch => ch == '/'))
                 yes = true;
@@ -290,27 +289,35 @@ namespace LR7
                 try
                 {
                     a = Convert.ToInt32(strs[0]);
+                    b = Convert.ToInt32(strs[1]);
+
                 }
                 catch (FormatException)
                 {
                     Console.WriteLine("Неверное выражение");
                     return null;
                 }
+                if ( b != 0)
+                 buff = new Operations(a,b);
+                else throw new Exception("U cant enter 0");
 
                // a = Convert.ToInt32(strs[0]);
-                buff.SetNumerator(a);
-                try
-                {
-                    b = Convert.ToInt32(strs[1]);
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Неверное выражение");
-                    return null;
-                }
-
-                //b = Convert.ToInt32(strs[1]);
-                buff.SetDenaminator(b);
+                // buff.SetNumerator(a);
+                // try
+                // {
+                //     
+                //     b = Convert.ToInt32(strs[1]);
+                //     
+                // }
+                // catch (FormatException)
+                // {
+                //     Console.WriteLine("Неверное выражение");
+                //     return null;
+                // }
+                //
+                // //b = Convert.ToInt32(strs[1]);
+                // buff.SetDenominator(b);
+                return buff;
             }
             else
             {
@@ -324,17 +331,21 @@ namespace LR7
                     Console.WriteLine("Неверное выражение");
                     return null;
                 }
+                buff = new Operations(c,1);
+                return buff;
 
-              //  c = Convert.ToInt32(str);
-                buff.SetNumerator(c);
-                buff.SetDenaminator(1);
+                //  c = Convert.ToInt32(str);
+                // buff.SetNumerator(c);
+                // buff.SetDenominator(1);
             }
 
-            return buff;
+            // return buff;
         }
-        public static Operations Enter(char[] s)
+
+         private static Operations Enter(char[] s)
         {
-            var buff = new Operations();
+            // var buff = new Operations();
+            Operations buff;
             var yes = s.Any(ch => ch == '/');
 
             if (yes)
@@ -360,15 +371,18 @@ namespace LR7
                 {
                     temp += (str1[k] - 48) * (int) Math.Pow(10, k);
                 }
-
-                buff.SetNumerator(temp);
-                temp = 0;
+                
+                // buff.SetNumerator(temp);
+                int temp1 = 0;
                 for (int k = 0; str1[k] != '\0'; k++)
                 {
-                    temp += (str2[k] - 48) * (int) Math.Pow(10, k);
+                    temp1 += (str2[k] - 48) * (int) Math.Pow(10, k);
                 }
-
-                buff.SetDenaminator(temp);
+                // buff.SetDenominator(temp);
+                if ( temp1 != 0)
+                    buff = new Operations(temp,temp1);
+                else throw new Exception("U cant enter 0");
+                
             }
             else
             {
@@ -384,8 +398,9 @@ namespace LR7
                 }
 
                 // c = Convert.ToInt32(s);
-                buff.SetNumerator(c);
-                buff.SetDenaminator(1);
+                // buff.SetNumerator(c);
+                // buff.SetDenominator(1);
+                buff = new Operations(c,1);
             }
 
             return buff;

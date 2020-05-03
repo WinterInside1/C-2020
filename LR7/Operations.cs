@@ -24,18 +24,18 @@ namespace LR7
             return HashCode.Combine(_numerator, _denominator);
         }
 
-        private int _numerator { get; set; }
-        private int _denominator { get; set; }
+        private readonly int _numerator;
+        private readonly int _denominator; 
 
-        public void SetNumerator(int numerator)
-        {
-            _numerator = numerator;
-        }
+        // public void SetNumerator(int numerator)
+        // {
+        //     Numerator = numerator;
+        // }
         
-        public void SetDenaminator(int denaminator)
-        {
-            _denominator = denaminator;
-        }
+        // public void SetDenominator(int denaminator)
+        // {
+        //     Numerator = denaminator;
+        // }
 
         public Operations(int num, int denum)
         {
@@ -57,59 +57,45 @@ namespace LR7
 
         public static Operations operator +(Operations obj1, Operations obj2)
         {
-            var res = new Operations(1, 1);
+            Operations res;
             if (obj1._denominator == obj2._denominator)
             {
-                res._numerator = obj1._numerator + obj2._numerator;
-                res._denominator = obj1._denominator;
+                res = new Operations((obj1._numerator+obj2._numerator),obj1._denominator);
                 return res;
             }
-
-            res._numerator = obj1._numerator * obj2._denominator;
-            res._numerator += obj2._numerator * obj1._denominator;
-
-            res._denominator = obj1._denominator * obj2._denominator;
+            res = new Operations(((obj1._numerator * obj2._denominator)+(obj2._numerator * obj1._denominator)),obj1._denominator * obj2._denominator);
             return res;
         }
 
         public static Operations operator -(Operations obj1, Operations obj2)
         {
-            var res = new Operations(1, 1);
+            Operations res;
             if (obj1._denominator == obj2._denominator)
             {
-                res._numerator = obj1._numerator - obj2._numerator;
-                res._denominator = obj1._denominator;
+                res = new Operations((obj1._numerator - obj2._numerator),obj1._denominator);
                 return res;
             }
-
-            res._numerator = obj1._numerator * obj2._denominator;
-            res._numerator -= obj2._numerator * obj1._denominator;
-
-            res._denominator = obj1._denominator * obj2._denominator;
+            res= new Operations(((obj1._numerator * obj2._denominator)-(obj2._numerator * obj1._denominator)),obj1._denominator * obj2._denominator);
             return res;
         }
 
         public static Operations operator *(Operations obj1, Operations obj2)
         {
-            var res = new Operations(1, 1)
-            {
-                _numerator = obj1._numerator * obj2._numerator, _denominator = obj1._denominator * obj2._denominator
-            };
+            var res = new Operations(obj1._numerator * obj2._numerator,obj1._denominator * obj2._denominator);
             return res;
         }
 
         public static Operations operator /(Operations obj1, Operations obj2)
         {
-            var res = new Operations(1, 1) {_numerator = obj1._numerator * obj2._denominator};
+            Operations res;
+               // {_numerator = obj1._numerator * obj2._denominator};
             var temp = obj2._numerator * obj1._denominator;
             if (temp > 0)
-                res._denominator = temp;
-            else
             {
-                res._denominator = Math.Abs(temp);
-                res._numerator = 0 - res._numerator;
+                res = new Operations((obj1._numerator * obj2._denominator),temp);
+                return res;
             }
-
+            res = new Operations((0-(obj1._numerator * obj2._denominator)),(Math.Abs(temp)));
             return res;
         }
 
@@ -182,38 +168,57 @@ namespace LR7
                 else
                     b -= a;
             }
-
             return a;
         }
 
-        private void Reduce()
+        private string Reduce()
         {
+            var tempnum = _numerator;
+            var tempdenum = _denominator;
             var n = Nod(Math.Abs(_numerator), _denominator);
             while (n != 1)
             {
                 n = Nod(Math.Abs(_numerator), _denominator);
-                _numerator /= n;
-                _denominator /= n;
+                tempnum /= n;
+                tempdenum /=n;
             }
+
+            return tempnum + "/" + tempdenum;
         }
 
-        public string Fraction()
+        public override string ToString()
         {
             if (_numerator % _denominator == 0)
             {
-                return Convert.ToString(_numerator / _denominator);
+                return $"{_numerator / _denominator}";
             }
-
-            Reduce();
-            return _numerator + "/" + _denominator;
+            return Reduce();
+            
         }
+        // public string Fraction()
+        // {
+        //     if (_numerator % _denominator == 0)
+        //     {
+        //         return Convert.ToString(_numerator / _denominator);
+        //     }
+        //
+        //     Reduce();
+        //     return _numerator + "/" + _denominator;
+        // }
 
         public int CompareTo(object obj)
         {
             var temp = (Operations) obj;
-            if (this > temp) return 1;
-            if (this < temp) return -1;
-            return 0;
+            if (temp != null)
+            {
+                if (this > temp)
+                    return 1;
+                else if (this < temp)
+                    return -1;
+                else 
+                    return 0;
+            }
+            else throw new Exception("Unable to compare this two objects!");
         }
 
         public static explicit operator int(Operations obj)
