@@ -2,10 +2,17 @@
 
 namespace TransportType2
 {
-    class Car : Transport, IComparable
+     class Car : Transport, IComparable
     {
-     
-        public uint Price { get; set; }
+        public const int minSpeed = 0;
+        private static int _maxSpeed = 80;
+		
+        public int MaxSpeed
+        {
+            get { return _maxSpeed;}
+            set { _maxSpeed = value; }
+        }
+        public uint Price = 0;
         public uint NumberOfSeats { get; set; }
         public uint TrunkSize { get; set; }
 
@@ -13,38 +20,53 @@ namespace TransportType2
         {
             Sedan,
             Universal,
+            Hatchback,
+            Pickup,
             Crossover,
             SUV
         }
 
-        public readonly struct Engine
+        public struct Engine
         {
+            private uint _volume;
+            private uint _power;
+            private uint _cylinders;
+            private string _ecoClass;
             public Engine(uint volume, uint cylinders, uint power, string ecoClass)
             {
-                Volume = volume;
-                Cylinders = cylinders;
-                Power = power;
-                EcoClass = ecoClass;
+                _volume = volume;
+                _cylinders = cylinders;
+                _power = power;
+                _ecoClass = ecoClass;
             }
 
-            public uint Volume { get; }
+            public uint Volume
+            {
+                get => _volume;
+            }
 
-            public uint Power { get; }
+            public uint Power
+            {
+                get => _power;
+            }
 
-            public uint Cylinders { get; }
+            public uint Cylinders
+            {
+                get => _cylinders;
+            }
 
-            public string EcoClass { get; }
+            public string EcoClass
+            {
+                get => _ecoClass;
+            }
         }
-        
+
         protected Car()
         {
             Price = 0;
             NumberOfSeats = 0;
             TrunkSize = 0;
         }
-        
-         ~Car(){Console.WriteLine("Destroyed!");}
-        
         public virtual void Beep() {Console.WriteLine("BEEP!\a");}
        
         public void Calculate()
@@ -60,11 +82,10 @@ namespace TransportType2
                     break;
             }
         }
-        
         public int CompareTo(object o)
         {
             if(o is Car c)
-                return Price.CompareTo(c.Price);
+				return Price.CompareTo(c.Price);
             throw new Exception("Error. Unable to compare these objects.");
         }
     }

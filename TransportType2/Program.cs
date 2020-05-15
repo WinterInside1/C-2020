@@ -2,50 +2,111 @@
 
 namespace TransportType2
 {
-    internal static class Example
+    static class Program
     {
+        private delegate Car Choose(Car first, Car second);
+        private delegate void MessageHandler(string message);
         static void Main(string[] args)
         {
-            var myCar = new Bmw("Auto", "Black", "high", 2019, 4, 80,  Bmw.Model.M3, Car.CarType.Sedan);
+            var myCar = new BMW("Auto", "Black", "high", 2019,
+                4, 80, BMW.Model.M3, Car.CarType.Sedan);
             var myEngine = new Car.Engine(2500, 6, 80, "EURO 0");
             myCar.Calculate();
-            
-            Console.WriteLine("The info about the vehicle:");
-            Console.WriteLine($"1. Type: {myCar.Name}.\n2. Color: {myCar.Color}\n3. Year of production: {myCar.YearMade}");
-            Console.WriteLine($"4. Model: {myCar.CurrentModel}\n5. Car Type: {myCar.CurrentType}\n6. Comfort level: {myCar.ComfortLevel}]n\n");
 
-            Console.WriteLine("The vehicle's technical characteristics: ");
-            Console.WriteLine($"1. Number of seats: {myCar.NumberOfSeats}\n2. Engine volume: {myEngine.Volume}\n3. Engine cylinders number: {myEngine.Cylinders}");
-            Console.WriteLine($"4. Engine power: {myEngine.Power}\n5. Engine ecology class: {myEngine.EcoClass}\n");
-            Console.WriteLine($"The price is {myCar.Price}\n\n");
-
-            var friendsCar = new Mercedes("Auto", "Silver", "medium", 2012, 4, 400, Mercedes.Model.W140, Car.CarType.Sedan);
+            var friendsCar = new Mercedes("Auto", "Silver", "medium",
+                2012, 4, 400, Mercedes.Model.W140,
+                Car.CarType.Sedan);
             var friendsEngine = new Car.Engine(1700, 4, 66, "EURO 5");
             friendsCar.Calculate();
 
-            Console.WriteLine("The info about your friend's vehicle:");
-            Console.WriteLine($"1. Type: {friendsCar.Name}.\n2. Color: {friendsCar.Color}\n3. Year of production: {friendsCar.YearMade}");
-            Console.WriteLine($"4. Model: {friendsCar.CurrentModel}\n5. Car Type: {friendsCar.CurrentType}\n6. Comfort level: {friendsCar.ComfortLevel}\n\n");
+            Choose choice = IsBetter;
 
-            Console.WriteLine("The vehicle's technical characteristics: ");
-            Console.WriteLine($"1. Number of seats: {friendsCar.NumberOfSeats}\n2. Engine volume: {friendsEngine.Volume}\n3. Engine cylinders number: {friendsEngine.Cylinders}");
-            Console.WriteLine($"4. Engine power: {friendsEngine.Power}\n5. Engine ecology class: {friendsEngine.EcoClass}\n");
-            Console.WriteLine($"The price is {friendsCar.Price}\n\n");
-			
-			
-            Console.WriteLine("Additional functions: ");
-            Console.WriteLine("The program will show all models available:");
-            myCar.ShowModels();
-            friendsCar.ShowModels();
+            MessageHandler handler = Console.WriteLine;
+            handler("Enter the sum you would like to add:");
+            int money;
+            try
+            {
+                int.TryParse(Console.ReadLine(), out money);
+                if (money <= 0)
+                    throw new Exception("You've entered invalid data!");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
             
-            IModels testCar = new Bmw("Auto", "Green", "low", 2010, 4, 65,  Bmw.Model.X5, Car.CarType.SUV);
-            IModels.Restore(testCar.Available);
-            IModels.Buy(testCar.Available);
-            Console.WriteLine(testCar.Available);
+            myCar.Purchase(money);
+            friendsCar.Purchase(money);
+            var result = choice(myCar, friendsCar);
+            handler("Nice choice!");
+        }
+
+        private static Car IsBetter(Car first, Car second)
+        {
+            var firstPoints = 0;
+            var secondPoints = 0;
+
+            if (first.NumberOfSeats > second.NumberOfSeats)
+                firstPoints++;
+            else if (first.NumberOfSeats < second.NumberOfSeats)
+                secondPoints++;
+            else
+            {
+                firstPoints++;
+                secondPoints++;
+            }
+            if (first.ComfortLevel == "high" && (second.ComfortLevel == "medium" 
+                                                 || second.ComfortLevel == "low") ||
+                first.ComfortLevel == "medium" && second.ComfortLevel == "low")
+                firstPoints++;
+            else if (first.ComfortLevel == second.ComfortLevel)
+            {
+                firstPoints++;
+                secondPoints++;
+            }
+            else
+                secondPoints++;
             
-            IMovable anotherCar = new Mercedes("Auto", "Silver", "medium", 2012, 4, 400, Mercedes.Model.W140, Car.CarType.Sedan);
-            anotherCar.MaxSpeed = int.Parse(Console.ReadLine()!);
-            Console.WriteLine("The time it takes the vehicle to get to destination point is: {0}", anotherCar.GetTime(250, anotherCar.MaxSpeed));
+            if (first.YearMade > second.YearMade)
+                firstPoints++;
+            else if (first.YearMade == second.YearMade)
+            {
+                firstPoints++;
+                secondPoints++;
+            }
+            else
+                secondPoints++;
+            
+            if (firstPoints > secondPoints)
+                return first;
+            if (firstPoints == secondPoints)
+            {
+                Console.WriteLine("The cars are equal, which one would like to choose?");
+                int.TryParse(Console.ReadLine(), out var choice);
+                switch (choice)
+                {
+                    case 1:
+                    {
+                        return first;
+                    }
+
+                    case 2:
+                    {
+                        return second;
+                    }
+
+                    default:
+                    {
+                        Console.WriteLine("Error!");
+                        break;
+                    }
+                }
+            }
+            else
+                return second;
+
+            return null;
         }
     }
 }

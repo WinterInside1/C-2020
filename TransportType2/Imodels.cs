@@ -2,27 +2,37 @@
 
 namespace TransportType2 
 {
-    internal interface IModels
-    {	
-        public static void Buy(bool inStock)
+    abstract class Models
+    {
+        public void Buy(bool inStock)
         {
-            if(inStock)
+            try
             {
-                Console.WriteLine("You successfully bought this one!");
-                inStock = false;
+                if (inStock)
+                {
+                    Console.WriteLine("You successfully bought this one!");
+                    inStock = false;
+                }
+
+                else
+                {
+                    throw new Exception("The car is out of stock, you need to restore it first!");
+                }
             }
-			
-            else
-                Console.WriteLine("Sorry, this one is out of stock!");
+
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+            }
         }
 		
-        public static void Restore(bool inStock)
+        public void Restore(bool inStock)
         {
             if(!inStock)
                 inStock = true;
         }
 		
-        public void ShowModels();
+        public abstract void ShowModels();
         bool Available { get; set; }
     }
 }

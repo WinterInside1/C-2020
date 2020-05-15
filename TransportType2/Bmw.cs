@@ -2,9 +2,9 @@
 
 namespace TransportType2
 {
-    class Bmw : Car, IMovable, IModels
+    class BMW : Car, IMovable
     {
-      
+        //fields
         public enum Model
         {
             Z8,
@@ -15,30 +15,35 @@ namespace TransportType2
         }
 
         private bool _available = true;
-        public bool Available { get; set; }
-        public Model CurrentModel { get; }
-        public CarType CurrentType { get; }
-        
-        public Bmw(string name, string color, string comfortLevel, uint yearMade, uint numberOfSeats, uint trunkSize, Model neededModel, CarType neededType)
+
+        //constructor
+        public BMW(string name, string color, string comfortLevel, uint YearMade, uint numberOfSeats, 
+            uint trunkSize, Model NeededModel, CarType NeededType)
         {
             Name = name;
-            Color = color;
-            ComfortLevel = comfortLevel;
-            this.yearMade = yearMade;
+            Color = Color;
+            ComfortLevel = ComfortLevel;
+            yearMade = YearMade;
             NumberOfSeats = numberOfSeats;
             TrunkSize = trunkSize;
-            CurrentModel = neededModel;
-            CurrentType = neededType;
+            CurrentModel = NeededModel;
+            CurrentType = NeededType;
         }
 
-       
-        ~Bmw() { Console.WriteLine("Destroyed!"); }
+
+        public Model CurrentModel { get; }
+
+        public CarType CurrentType { get; }
+
+        public bool Available { get; set; }
+
+        //methods
         public override void Beep()
         {
-            Console.WriteLine("BEEP<BEEP\a\n");
+            Console.WriteLine("E-RON-DON-DON!!!\a\n");
         } 
         
-        public void ShowModels()
+        public static void ShowModels()
         {
             Console.WriteLine("The models of BMW are: ");
             for (var toShow = Model.Z8; toShow <= Model.X5; toShow++)
@@ -46,6 +51,18 @@ namespace TransportType2
                 Console.WriteLine(toShow);
             }
             Console.WriteLine();
-        }		
+        }
+
+        public delegate void PurchaseHandler(string message);
+        public event PurchaseHandler Notify;
+        public void Purchase(int money)
+        {
+            if(money < Price)
+                Notify?.Invoke("Something went wrong!");
+            else
+                Console.WriteLine("Successful!");
+        }
+        
+        
     }
 }
