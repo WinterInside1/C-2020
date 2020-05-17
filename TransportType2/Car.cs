@@ -73,7 +73,7 @@ namespace TransportType2
         }
         public int CompareTo(object o)
         {
-            if(o is Car )
+            if(o is Car c )
 				return Price.CompareTo(Price);
             throw new Exception("Error. Unable to compare these objects.");
         }
@@ -81,8 +81,7 @@ namespace TransportType2
         public static event PurchaseHandler Notify;
         public static void Purchase(int money)
         {
-            Notify?.Invoke(money < Price ? "Something went wrong!" : "Success");
-            Notify?.Invoke($"what?  {Price}");
+            Notify?.Invoke(money > Price ? "Success" : "Something went wrong!");
         }
         
     }

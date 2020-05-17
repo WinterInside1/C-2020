@@ -36,8 +36,7 @@ namespace TransportType2
                 Console.WriteLine(e);
                 throw;
             }
-
-
+            Car.Notify += new Car.PurchaseHandler(handler);
             Car.Purchase(money);
             Car.Purchase(money);
             var result = choice(myCar, friendsCar);
