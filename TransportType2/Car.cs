@@ -9,10 +9,11 @@ namespace TransportType2
 		
         public int MaxSpeed
         {
-            get { return _maxSpeed;}
-            set { _maxSpeed = value; }
+            get => _maxSpeed;
+            set => _maxSpeed = value;
         }
-        public uint Price = 0;
+
+        private static uint Price { get; set; }
         public uint NumberOfSeats { get; set; }
         public uint TrunkSize { get; set; }
 
@@ -23,15 +24,15 @@ namespace TransportType2
             Hatchback,
             Pickup,
             Crossover,
-            SUV
+            Suv
         }
 
-        public struct Engine
+        public readonly struct Engine
         {
-            private uint _volume;
-            private uint _power;
-            private uint _cylinders;
-            private string _ecoClass;
+            private readonly uint _volume;
+            private readonly uint _power;
+            private readonly uint _cylinders;
+            private readonly string _ecoClass;
             public Engine(uint volume, uint cylinders, uint power, string ecoClass)
             {
                 _volume = volume;
@@ -40,25 +41,13 @@ namespace TransportType2
                 _ecoClass = ecoClass;
             }
 
-            public uint Volume
-            {
-                get => _volume;
-            }
+        public uint Volume => _volume;
 
-            public uint Power
-            {
-                get => _power;
-            }
+        public uint Power => _power;
 
-            public uint Cylinders
-            {
-                get => _cylinders;
-            }
+        public uint Cylinders => _cylinders;
 
-            public string EcoClass
-            {
-                get => _ecoClass;
-            }
+        public string EcoClass => _ecoClass;
         }
 
         protected Car()
@@ -84,9 +73,17 @@ namespace TransportType2
         }
         public int CompareTo(object o)
         {
-            if(o is Car c)
-				return Price.CompareTo(c.Price);
+            if(o is Car )
+				return Price.CompareTo(Price);
             throw new Exception("Error. Unable to compare these objects.");
         }
+        public delegate void PurchaseHandler(string message);
+        public static event PurchaseHandler Notify;
+        public static void Purchase(int money)
+        {
+            Notify?.Invoke(money < Price ? "Something went wrong!" : "Success");
+            Notify?.Invoke($"what?  {Price}");
+        }
+        
     }
 }

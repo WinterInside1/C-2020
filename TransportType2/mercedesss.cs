@@ -20,7 +20,7 @@ namespace TransportType2
         {
             Name = name;
             Color = color;
-            ComfortLevel = ComfortLevel;
+            ComfortLevel = comfortLevel;
             yearMade = YearMade;
             NumberOfSeats = numberOfSeats;
             TrunkSize = trunkSize;
@@ -49,16 +49,6 @@ namespace TransportType2
         }
         public bool Available { get; set; }
 
-        public delegate void PurchaseHandler(string message);
-
-        public event PurchaseHandler Notify;
-
-        public void Purchase(int money)
-        {
-            if (money < Price)
-                Notify?.Invoke("Something went wrong!");
-            else
-                Console.WriteLine("Successful!");
-        }
+       
     }
 }

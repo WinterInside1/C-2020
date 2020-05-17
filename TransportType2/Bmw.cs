@@ -21,8 +21,8 @@ namespace TransportType2
             uint trunkSize, Model NeededModel, CarType NeededType)
         {
             Name = name;
-            Color = Color;
-            ComfortLevel = ComfortLevel;
+            Color = color;
+            ComfortLevel = comfortLevel;
             yearMade = YearMade;
             NumberOfSeats = numberOfSeats;
             TrunkSize = trunkSize;
@@ -52,17 +52,5 @@ namespace TransportType2
             }
             Console.WriteLine();
         }
-
-        public delegate void PurchaseHandler(string message);
-        public event PurchaseHandler Notify;
-        public void Purchase(int money)
-        {
-            if(money < Price)
-                Notify?.Invoke("Something went wrong!");
-            else
-                Console.WriteLine("Successful!");
-        }
-        
-        
     }
 }

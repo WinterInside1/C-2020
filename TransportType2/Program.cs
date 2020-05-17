@@ -2,9 +2,10 @@
 
 namespace TransportType2
 {
-    static class Program
+    internal static class Program
     {
         private delegate Car Choose(Car first, Car second);
+
         private delegate void MessageHandler(string message);
         static void Main(string[] args)
         {
@@ -35,15 +36,17 @@ namespace TransportType2
                 Console.WriteLine(e);
                 throw;
             }
-            
-            myCar.Purchase(money);
-            friendsCar.Purchase(money);
+
+
+            Car.Purchase(money);
+            Car.Purchase(money);
             var result = choice(myCar, friendsCar);
             handler("Nice choice!");
         }
 
         private static Car IsBetter(Car first, Car second)
         {
+            
             var firstPoints = 0;
             var secondPoints = 0;
 
@@ -77,9 +80,9 @@ namespace TransportType2
             }
             else
                 secondPoints++;
-            
+
             if (firstPoints > secondPoints)
-                return first;
+                Console.WriteLine("The first Car is better!");
             if (firstPoints == secondPoints)
             {
                 Console.WriteLine("The cars are equal, which one would like to choose?");
