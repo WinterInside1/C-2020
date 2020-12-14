@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System;
 
 
 namespace ParserDll
@@ -6,16 +7,20 @@ namespace ParserDll
    public class Manager
     {
         private readonly IParse parser;
-        public Manager(string path)
+        public Manager(string path,Type mainType)
         {
-            if (Path.GetExtension(path) == ".xml")
+            if (path.EndsWith(".xml"))
             {
                 XmlParser xmlParser = new XmlParser(path);
                 parser =(IParse)xmlParser;
             }
-            else if (Path.GetExtension(path) == ".json")
+            else if (path.EndsWith(".json"))
             {
                 parser = new JsonParser(path);
+            }
+            else
+            {
+                throw new ArgumentNullException($"invalid extension");
             }
         }
 

@@ -29,12 +29,12 @@ namespace Lab4
 
             fileTransfer.SendDataToFileManager($"{ordersFileName}.xml");
 
-            infoMessage.InsertInsight("Files were sent to FTP successfully");
+            infoMessage.InsertLogs("Files were sent to FTP successfully");
         }
 
         protected override void OnStop()
         {
-            infoMessage.InsertInsight("Service was successfully stopped");
+            infoMessage.InsertLogs("Service was successfully stopped");
 
             infoMessage.WriteInsightsToXml(dataMethods.OutputFolder);
         }

@@ -1,0 +1,7 @@
+﻿<?xml version="1.0"?>
+<DataMethods>
+  <ConnectionString>Data Source=DIMAS-SURFACE-L\dima4;Initial Catalog=AdventureWorks2019;Integrated Security=True</ConnectionString>
+  <SourcePath>C:\SourceDirectory</SourcePath>
+  <OutputFolder>C:\Users\dima4\source\repos\Lab4\Lab4\bin\Debug\output</OutputFolder>
+  <LoggerConnectionString>Data Source=DIMAS-SURFACE-L\dima4;Initial Catalog=LogsDBSample;Integrated Security=True</LoggerConnectionString>
+</DataMethods> 

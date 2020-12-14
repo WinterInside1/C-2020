@@ -131,14 +131,14 @@ namespace DataManagerDll
                 }
             }
 
-            public void GetCustomers(string outputFolder, DataInputOutput appInsights, string customersFileName)
+            public void GetCustomers(string outputFolder, DataInputOutput appInsights, string employeeFileName)
             {
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
                     SqlTransaction transaction = connection.BeginTransaction();
 
-                    SqlCommand command = new SqlCommand("sp_GetCustomers", connection);
+                    SqlCommand command = new SqlCommand("GetOrders", connection);
 
                     command.CommandType = CommandType.StoredProcedure;
                     command.Transaction = transaction;
@@ -147,19 +147,19 @@ namespace DataManagerDll
                     {
                         SqlDataAdapter adapter = new SqlDataAdapter(command);
 
-                        DataSet dataSet = new DataSet("Customers");
+                        DataSet dataSet = new DataSet("Orders");
 
-                        DataTable dataTable = new DataTable("Customer");
+                        DataTable dataTable = new DataTable("Employees");
 
                         dataSet.Tables.Add(dataTable);
 
-                        adapter.Fill(dataSet.Tables["Customer"]);
+                        adapter.Fill(dataSet.Tables["Employees"]);
 
                         XmlGenerator xmlGenerator = new XmlGenerator(outputFolder);
 
-                        xmlGenerator.WriteToXml(dataSet, customersFileName);
+                        xmlGenerator.WriteToXml(dataSet, employeeFileName);
 
-                        appInsights.InsertInsight("Customers were received successfully");
+                        appInsights.InsertInsight("Employees were received successfully");
 
                         transaction.Commit();
                     }

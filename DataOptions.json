@@ -1,6 +1,0 @@
-{
-  "ConnectionString": "Data Source=dimas-surface-laptop;Initial Catalog=ApplicationInsights;Integrated Security=True",
-  "LoggerConnectionString": "Data Source=dimas-surface-laptop;Initial Catalog=ApplicationInsights;Integrated Security=True",
-  "SourcePath": "C:\\SourceDirectory",
-  "OutputFolder": "C:\\Users\\dima4\\source\\repos\\Lab4\\Lab4\\bin\\Debug\\output"
-}

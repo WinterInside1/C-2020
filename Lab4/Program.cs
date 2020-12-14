@@ -1,54 +1,47 @@
-﻿using System;
-using System.ServiceProcess;
-using System.IO;
-using System.Xml.Schema;
-using System.Xml.Linq;
-using DataManagerDll;
+﻿using DataManagerDll;
 using ParserDll;
+using System;
+using System.IO;
+using System.ServiceProcess;
+using System.Xml.Schema;
 
 namespace Lab4
 {
     static class Program
     {
 
-        static readonly string xmlPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dataMethods", "dataMethods.xml");
-        static readonly string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dataMethodss", "dataMethods.json");
+        static readonly string xmlPath = Path.Combine("C:\\Users\\dima4\\source\\repos\\Lab4\\Lab4\\dataMethods", "dataMethods.xml");
+
+        static readonly string jsonPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dataMethods.json");
 
         static void Main()
         {
             Manager configManager;
             DataMethods dataMethods;
-
-            DataInputOutput appInsights;
+            DataInputOutput logsDBSample;
 
             try
             {
-                if (File.Exists(xmlPath))
-                {
-                    XmlSchemaSet schema = new XmlSchemaSet();
-
-                    XDocument xdoc = XDocument.Load(xmlPath);
-
-                    xdoc.Validate(schema, ValidationEventHandler);
-
-                    configManager = new Manager(xmlPath);
-                }
-                else if (File.Exists(jsonPath))
-                {
-                    configManager = new Manager(jsonPath);
-                }
-                else
-                {
-                    throw new Exception("File with data options was not found");
-                }
+                //if (File.Exists(xmlPath))
+                //{
+                configManager = new Manager(xmlPath, typeof(DataMethods));
+                //}
+                // if (File.Exists(jsonPath))
+                // {
+                //   configManager = new Manager(jsonPath, typeof(DataMethods));
+                //}
+                //else
+                //{
+                //  throw new Exception("File with data options was not found");
+                //}
 
                 dataMethods = configManager.Parse<DataMethods>();
 
-                appInsights = new DataInputOutput(dataMethods.LoggerConnectionString);
+                logsDBSample = new DataInputOutput(dataMethods.LoggerConnectionString);
 
-                appInsights.ClearInsights();
+                logsDBSample.ClearLogs();
 
-                appInsights.InsertInsight("Connection was successfully established");
+                logsDBSample.InsertLogs("Connection was successfully established");
             }
             catch (Exception ex)
             {
@@ -62,15 +55,15 @@ namespace Lab4
 
             try
             {
-                Service1 service = new Service1(dataMethods, appInsights);
+                Service1 service = new Service1(dataMethods, logsDBSample);
 
                 ServiceBase.Run(service);
             }
             catch (Exception ex)
             {
-                appInsights.InsertInsight("EXCEPTION: " + ex.Message);
+                logsDBSample.InsertLogs("EXCEPTION: " + ex.Message);
 
-                appInsights.WriteInsightsToXml(dataMethods.OutputFolder);
+                logsDBSample.WriteInsightsToXml(dataMethods.OutputFolder);
             }
         }
 

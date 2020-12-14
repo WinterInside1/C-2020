@@ -21,7 +21,7 @@ namespace ParserDll
 
             try
             {
-                Validate();
+                
                 XmlSerializer serializer = new XmlSerializer(typeof(T));
                 using (var fs = new FileStream(xmlTitle, FileMode.OpenOrCreate))
                 {
@@ -34,20 +34,6 @@ namespace ParserDll
             }
 
             return obj;
-        }
-
-        private void Validate()
-        {
-            XmlSchemaSet schemas = new XmlSchemaSet();
-            var validationPath = Path.Combine(Directory.GetCurrentDirectory(), "Validation.xsd");
-            schemas.Add(null, validationPath);
-
-            XDocument document = XDocument.Load(xmlTitle);
-
-            document.Validate(schemas, (sender, validationEventArgs) =>
-            {
-                throw validationEventArgs.Exception;
-            });
         }
     }
 }
