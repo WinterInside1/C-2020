@@ -1,5 +1,6 @@
 ﻿using System.Data;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace DataManagerDll
 {
@@ -11,11 +12,11 @@ namespace DataManagerDll
         {
             this.outputFolder = outputFolder;
         }
-
-        public void WriteToXml(DataSet dataSet, string fileName)
+        public async Task WriteToXmlAsync(DataSet dataSet,string fileName) 
         {
-            dataSet.WriteXml(Path.Combine(outputFolder, $"{fileName}.xml"));
 
+            dataSet.WriteXml(Path.Combine(outputFolder, $"{fileName}.xml"));
+            await WriteToXmlAsync( dataSet, fileName); 
         }
     }
 }

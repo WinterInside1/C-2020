@@ -3,6 +3,7 @@ using System.IO;
 using System.Xml.Linq;
 using System.Xml.Schema;
 using System.Xml.Serialization;
+using System.Threading.Tasks;
 
 namespace ParserDll
 {
@@ -34,6 +35,10 @@ namespace ParserDll
             }
 
             return obj;
+        }
+        public async Task<T> ParseAsync<T>() where T : new()
+        {
+            return await Task.Run(() => Parse<T>());
         }
     }
 }

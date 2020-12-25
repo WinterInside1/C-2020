@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using System.Text.Json;
 
 namespace ParserDll
@@ -28,6 +29,10 @@ namespace ParserDll
             }
 
             return obj;
+        }
+        public async Task<T> ParseAsync<T>() where T : new()
+        {
+            return await Task.Run(() => Parse<T>());
         }
     }
 }

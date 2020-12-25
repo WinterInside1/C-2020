@@ -2,11 +2,12 @@
 using System.Data.SqlClient;
 using System.Data;
 using System.IO;
-
+using System.Threading.Tasks;
 namespace DataManagerDll
 {
     public class DataInputOutput
     {
+        static void ProductList(IAsyncResult result) { }
 
         readonly string connectionString;
 
@@ -47,49 +48,51 @@ namespace DataManagerDll
 
         public void InsertLogs(string message)
         {
+            AsyncCallback productList = new AsyncCallback(ProductList);
             using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                connection.Open();
-                SqlTransaction transaction = connection.BeginTransaction();
-
-                SqlCommand command = new SqlCommand("sp_InsertLogs", connection);
-
-                command.CommandType = CommandType.StoredProcedure;
-                command.Transaction = transaction;
-
-                try
-                {
-                    SqlParameter messageParam = new SqlParameter
+                connection.OpenAsync().ContinueWith((task) => {
                     {
-                        ParameterName = "@message",
-                        Value = message
-                    };
+                        SqlTransaction transaction = connection.BeginTransaction();
 
-                    SqlParameter timeParam = new SqlParameter
-                    {
-                        ParameterName = "@time",
-                        Value = DateTime.Now
-                    };
+                        SqlCommand command = new SqlCommand("sp_InsertLogs", connection);
 
-                    command.Parameters.AddRange(new[] { messageParam, timeParam });
+                        command.CommandType = CommandType.StoredProcedure;
+                        command.Transaction = transaction;
 
-                    command.ExecuteNonQuery();
+                        try
+                        {
+                            SqlParameter messageParam = new SqlParameter
+                            {
+                                ParameterName = "@message",
+                                Value = message
+                            };
 
-                    transaction.Commit();
-                }
-                catch (Exception ex)
-                {
-                    using (StreamWriter sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Exceptions.txt"), true))
-                    {
-                        sw.WriteLine($"{DateTime.Now:dd/MM/yyyy HH:mm:ss} Exception: {ex.Message}");
+                            SqlParameter timeParam = new SqlParameter
+                            {
+                                ParameterName = "@time",
+                                Value = DateTime.Now
+                            };
+
+                            command.Parameters.AddRange(new[] { messageParam, timeParam });
+
+                            command.ExecuteNonQuery();
+
+                            transaction.Commit();
+                        }
+                        catch (Exception ex)
+                        {
+                            using (StreamWriter sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Exceptions.txt"), true))
+                            {
+                                sw.WriteLine($"{DateTime.Now:dd/MM/yyyy HH:mm:ss} Exception: {ex.Message}");
+                            }
+
+                            transaction.Rollback();
+                        }
                     }
-
-                    transaction.Rollback();
-                }
-            }
+                }, TaskContinuationOptions.OnlyOnRanToCompletion);
         }
 
-        public void WriteInsightsToXml(string outputFolder)
+        public async void WriteInsightsToXml(string outputFolder)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -115,7 +118,7 @@ namespace DataManagerDll
 
                     XmlGenerator xmlGenerator = new XmlGenerator(outputFolder);
 
-                    xmlGenerator.WriteToXml(dataSet, "Logs4Sample");
+                    await xmlGenerator.WriteToXmlAsync(dataSet, "Logs4Sample");
 
                     transaction.Commit();
                 }
@@ -130,8 +133,23 @@ namespace DataManagerDll
                 }
             }
         }
+        public async Task WriteInsightsToXmlAsync(string outputFolder) 
+        {
+            try
+            {
+                await Task.Run(() => WriteInsightsToXml(outputFolder));
+            }catch(Exception ex) 
+            {
+                using (StreamWriter sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Exceptions.txt"), true))
+                {
+                    sw.WriteLine($"{DateTime.Now:dd/MM/yyyy HH:mm:ss} Exception: {ex.Message}");
+                }
 
-        public void GetCustomers(string outputFolder, DataInputOutput appInsights, string customersFileName)
+            }
+
+        }
+
+        public async void GetCustomers(string outputFolder, DataInputOutput appInsights, string customersFileName)
         {
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
@@ -157,7 +175,7 @@ namespace DataManagerDll
 
                     XmlGenerator xmlGenerator = new XmlGenerator(outputFolder);
 
-                    xmlGenerator.WriteToXml(dataSet, customersFileName);
+                    await xmlGenerator.WriteToXmlAsync(dataSet, customersFileName);
 
                     appInsights.InsertLogs("Customers were received successfully");
 
@@ -170,6 +188,22 @@ namespace DataManagerDll
                     transaction.Rollback();
                 }
             }
+        }
+        public async Task GetCustomersAsync(string outputFolder, DataInputOutput appInsights, string customersFileName)
+        {
+            try
+            {
+                await Task.Run(() => GetCustomers(outputFolder,appInsights,customersFileName));
+            }
+            catch (Exception ex)
+            {
+                using (StreamWriter sw = new StreamWriter(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Exceptions.txt"), true))
+                {
+                    sw.WriteLine($"{DateTime.Now:dd/MM/yyyy HH:mm:ss} Exception: {ex.Message}");
+                }
+
+            }
+
         }
     }
 }

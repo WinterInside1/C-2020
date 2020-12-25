@@ -1,5 +1,7 @@
 ﻿using System.IO;
 using System;
+using System.Threading.Tasks;
+
 
 
 namespace ParserDll
@@ -27,6 +29,10 @@ namespace ParserDll
         public T Parse<T>() where T : new()
         {
             return parser.Parse<T>();
+        }
+        public async Task<T> ParseAsync<T>() where T : new()
+        {
+            return await Task.Run(() => Parse<T>());
         }
     }
 }

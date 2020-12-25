@@ -4,6 +4,8 @@ using System;
 using System.IO;
 using System.ServiceProcess;
 using System.Xml.Schema;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Lab4
 {
@@ -58,6 +60,7 @@ namespace Lab4
                 Service1 service = new Service1(dataMethods, logsDBSample);
 
                 ServiceBase.Run(service);
+                Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception ex)
             {
